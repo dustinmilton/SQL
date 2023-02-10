@@ -1,0 +1,27 @@
+CREATE table shirts (id integer primary key, size text, color text, pattern text, price integer);
+
+INSERT INTO shirts VALUES 
+(1, "L", "Blue", "Stripes", 20), 
+(2, "M", "Red", "Solid", 35),
+(3, "XS", "Orange", "Solid", 45),
+(4, "S", "Yellow", "Stripes", 50),
+(5, "XL", "Blue", "Solid", 75),
+(6, "L", "Red", "Stripes", 30),
+(7, "S", "White", "Stripes", 35),
+(8, "M", "Black", "Solid", 25),
+(9, "M", "Purple", "Stripes", 35),
+(10, "XL", "Green", "Solid", 75),
+(11, "S", "Red", "Stripes", 15),
+(12, "XS", "Red", "Solid", 10),
+(13, "XXL", "Yellow", "Stripes", 80),
+(14, "M", "Green", "Stripes", 35),
+(15, "L", "Orange", "Solid", 35);
+
+--Display the color and price of each item, order by price.
+SELECT color, price FROM shirts ORDER BY price;
+
+--Display the average price for each shirt size.
+SELECT size, AVG(price) FROM shirts GROUP BY size;
+
+--Display the sum of the prices for all shirts of a particular color, ordered from least to greatest total.
+SELECT color, SUM(price) AS "Total" FROM shirts GROUP BY color ORDER BY Total;
