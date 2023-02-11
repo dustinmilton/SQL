@@ -1,0 +1,43 @@
+CREATE TABLE movie_stars (id INTEGER PRIMARY KEY AUTOINCREMENT, fullname TEXT, birth_year INTEGER, net_worth INTEGER);
+
+INSERT INTO movie_stars (fullname, birth_year, net_worth) VALUES 
+("Tom Cruise", 1962, 570000000),
+("Kirsten Dunst", 1982, 25000000),
+("Robert Downey Jr.", 1965, 300000000),
+("Emily Blunt", 1983, 80000000),
+("Scarlett Johansson", 1984, 165000000),
+("Jesse Plemons", 1988, 8000000),
+("John Krasinski", 1979, 8000000);
+
+CREATE TABLE movies (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, release_year INTEGER, main_actor_id INTEGER);
+
+INSERT INTO movies (title, release_year, main_actor_id) VALUES
+("Mission Impossible", 1996, 1),
+("Lucy", 2014, 5),
+("Iron Man", 2008, 3),
+("Jack Reacher", 2012, 1);
+
+CREATE TABLE married (id INTEGER PRIMARY KEY AUTOINCREMENT, star_id1 INTEGER, star_id2 INTEGER);
+
+INSERT INTO married (star_id1, star_id2) VALUES
+(2, 6),
+(4, 7);
+
+--displays movie titles along with the name of the main star
+SELECT movies.title, movies.release_year, movie_stars.fullname
+FROM movies
+JOIN movie_stars
+ON movies.main_actor_id = movie_stars.id;
+
+--displays rows of movie stars who are married to each other
+SELECT a.fullname, b.fullname
+FROM married
+JOIN movie_stars a
+ON married.star_id1 = a.id
+JOIN movie_stars b
+ON married.star_id2 = b.id;
+
+--Displays actors' information and orders first by highest net worth then by who is oldest.
+SELECT fullname, birth_year, net_worth
+FROM movie_stars
+ORDER BY net_worth DESC, birth_year;
