@@ -1,0 +1,43 @@
+#In this SQL, I'm querying a database with multiple tables in it to quantify statistics about customer and order data. 
+
+--Finds how many orders were placed in January
+SELECT COUNT(*)
+FROM BIT_DB.JanSales
+WHERE length(orderID) = 6;
+
+--Finds how many of those orders were for an iPhone
+SELECT COUNT(*)
+FROM BIT_DB.JanSales
+WHERE length(orderID) = 6 AND Product = 'iPhone';
+
+--Finds all the account numbers of customers who placed an order in February
+SELECT customers.acctnum, FebSales.orderID
+FROM customers
+JOIN FebSales
+ON customers.order_id = FebSales.orderID
+WHERE length(FebSales.orderID) = 6;
+
+--Finds the cheapest product sold in January along with its price
+SELECT JanSales.Product, JanSales.price
+FROM JanSales
+ORDER BY price ASC
+LIMIT 1;
+
+--Finds the total revenue for each product sold in January
+SELECT JanSales.Product, ROUND(SUM(JanSales.Quantity)*JanSales.price, 2) AS 'January Revenue'
+FROM JanSales
+WHERE Product <> ''
+GROUP BY Product;
+
+--Finds which products were sold at a particular address, how many, and the total revenue
+SELECT FebSales.Product, SUM(FebSales.Quantity), SUM(FebSales.Quantity)*FebSales.price
+FROM FebSales
+WHERE location = '548 Lincoln St, Seattle, WA 98101'
+GROUP BY Product;
+
+--Finds how many customers ordered more than 2 products at a time in February, and the average amount spent by those customers
+SELECT COUNT(distinct customers.acctnum), AVG(FebSales.Quantity*FebSales.price)
+FROM FebSales
+LEFT JOIN customers
+ON FebSales.orderID = customers.order_id
+WHERE FebSales.Quantity > 2 AND length(FebSales.orderID) = 6;
