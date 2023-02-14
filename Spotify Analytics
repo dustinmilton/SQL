@@ -49,3 +49,25 @@ SELECT track_name
 FROM Spotifydata
 ORDER BY popularity DESC
 LIMIT 10);
+
+--Calculates the average popularity for each artist, then labels every artist with
+--an average popularity of 90 or above as "Top Star" (With and without a CTE)
+WITH TempTable AS (
+    SELECT artist_name, ROUND(AVG(popularity), 2) AS 'AvgPopularity'
+    FROM Spotifydata
+    GROUP BY artist_name
+)
+SELECT artist_name, AvgPopularity,
+    CASE
+        WHEN AvgPopularity >= 90 THEN 'Top Star'
+        ELSE ''
+    END AS 'Label'
+FROM TempTable;
+
+SELECT artist_name, ROUND(AVG(popularity), 2) AS 'AvgPopularity',
+    CASE
+        WHEN ROUND(AVG(popularity)) >= 90 THEN 'Top Star'
+        ELSE ''
+    END AS 'Label'
+FROM Spotifydata
+GROUP BY artist_name;
