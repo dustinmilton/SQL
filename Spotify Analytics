@@ -1,0 +1,47 @@
+CREATE TABLE BIT_DB.Spotifydata (
+id integer PRIMARY KEY,
+artist_name varchar NOT NULL,
+track_name varchar NOT NULL,
+track_id varchar NOT NULL,
+popularity integer NOT NULL,
+danceability decimal(4,3) NOT NULL,
+energy decimal(4,3) NOT NULL,
+song_key integer NOT NULL,
+loudness decimal(5,3) NOT NULL,
+song_mode integer NOT NULL,
+speechiness decimal(5,4) NOT NULL,
+acousticness decimal(6,5) NOT NULL,
+instrumentalness text NOT NULL,
+liveness decimal(5,4) NOT NULL,
+valence decimal(4,3) NOT NULL,
+tempo decimal(6,3) NOT NULL,
+duration_ms integer NOT NULL,
+time_signature integer NOT NULL );
+
+--What are the top 10 most popular songs and their artists?
+SELECT artist_name, track_name, danceability
+FROM Spotifydata
+ORDER BY popularity DESC
+LIMIT 10;
+
+--Which artists are in the top 5 for average song popularity?
+SELECT artist_name, ROUND(AVG(popularity), 2) AS 'Average Song Popularity'
+FROM Spotifydata
+GROUP BY artist_name
+ORDER BY ROUND(AVG(popularity), 2) DESC
+LIMIT 5;
+
+--Which artist had the longest song?
+SELECT artist_name, track_name
+FROM Spotifydata
+ORDER BY duration_ms DESC
+LIMIT 1;
+
+--What is the average danceability for the top 10 most popular songs?
+SELECT AVG(danceability)
+FROM Spotifydata
+WHERE track_name IN (
+SELECT track_name
+FROM Spotifydata
+ORDER BY popularity DESC
+LIMIT 10);
