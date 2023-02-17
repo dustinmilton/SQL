@@ -65,7 +65,7 @@ FROM tracks
 JOIN invoice_items
 ON tracks.TrackId = invoice_items.TrackId;
 
---Pairs each purchased track name with its artist and invoice line ID
+--Groups each purchased track name with its artist and invoice line ID
 WITH Temp1 AS (
     SELECT tracks.Name AS Track, tracks.AlbumId AS Album, invoice_items.InvoiceLineId AS InvoiceLineId
     FROM tracks
