@@ -1,0 +1,82 @@
+--Which customers are not in the U.S.?
+SELECT CustomerId, FirstName, LastName 
+FROM customers
+WHERE Country <> 'USA';
+
+--Which customers are in Brazil?
+SELECT CustomerId, FirstName, LastName 
+FROM customers
+WHERE Country = 'Brazil';
+
+--Which invoices are for the customers from Brazil?
+SELECT cust.FirstName, cust.LastName, inv.InvoiceId, inv.InvoiceDate, inv.BillingCountry
+FROM customers cust
+JOIN invoices inv
+ON cust.CustomerId = inv.CustomerId
+WHERE cust.Country = 'Brazil';
+
+--Which employees are Sales Support Agents?
+SELECT FirstName, LastName, Title
+FROM employees
+WHERE Title = 'Sales Support Agent';
+
+--Find a list of unique billing countries in the invoices table.
+SELECT distinct BillingCountry
+FROM invoices;
+
+--What are the invoices associated with each Sales Agent?
+WITH Sales AS (
+    SELECT em.FirstName AS FirstName, em.LastName AS LastName, cust.CustomerId AS CustomerId
+    FROM employees em
+    JOIN customers cust
+    ON em.EmployeeId = cust.SupportRepId
+    WHERE em.Title = 'Sales Support Agent')
+SELECT Sales.FirstName, Sales.LastName, inv.InvoiceId
+FROM Sales
+JOIN invoices inv
+ON Sales.CustomerId = inv.CustomerId;
+
+--Shows the Invoice Total, Customer name, Country, and Sales Agent name for all invoices and customers
+WITH Temp AS (
+    SELECT cust.FirstName AS 'FirstName', cust.LastName AS 'LastName', 
+    cust.Country AS 'Country', cust.SupportRepId AS 'SupportRepId', inv.Total AS 'Total'
+    FROM customers cust
+    JOIN invoices inv
+    ON cust.CustomerId = inv.CustomerId)
+SELECT Temp.FirstName, Temp.LastName, Temp.Total, 
+Temp.Country, em.FirstName AS RepFirstName, em.LastName AS RepLastName
+FROM Temp
+JOIN employees em
+ON Temp.SupportRepID = em.EmployeeId;
+
+--How many invoices were in 2009?
+SELECT COUNT(*) 
+FROM Invoices
+WHERE InvoiceDate LIKE '2009%';
+
+--What were the total sales in 2009?
+SELECT SUM(Total)
+FROM Invoices
+WHERE InvoiceDate LIKE '2009%';
+
+--Pairs each purchased track name with its invoice line ID
+SELECT tracks.Name, invoice_items.InvoiceLineId
+FROM tracks
+JOIN invoice_items
+ON tracks.TrackId = invoice_items.TrackId;
+
+--Pairs each purchased track name with its artist and invoice line ID
+WITH Temp1 AS (
+    SELECT tracks.Name AS Track, tracks.AlbumId AS Album, invoice_items.InvoiceLineId AS InvoiceLineId
+    FROM tracks
+    JOIN invoice_items
+    ON tracks.TrackId = invoice_items.TrackId),
+Temp2 AS (
+    SELECT albums.AlbumId AS Album, artists.Name AS Artist_Name
+    FROM albums
+    JOIN artists
+    ON albums.ArtistId = artists.ArtistId)
+SELECT Temp1.Track, Temp2.Artist_Name, Temp1.InvoiceLineID
+FROM Temp1
+JOIN Temp2
+ON Temp1.Album = Temp2.Album;
