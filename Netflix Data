@@ -10,7 +10,7 @@ SELECT nt.title, nt.date_added
 FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info" nt
 WHERE nt.date_added IS NOT NULL
 ORDER BY nt.date_added DESC
-LIMIT 10;
+LIMIT 10; 
 
 --Finds all movies and tv shows in the database and orders them alphabetically
 SELECT nt.title, nt.type
