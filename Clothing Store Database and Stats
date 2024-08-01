@@ -5,7 +5,7 @@ INSERT INTO shirts VALUES
 (2, "M", "Red", "Solid", 35),
 (3, "XS", "Orange", "Solid", 45),
 (4, "S", "Yellow", "Stripes", 50),
-(5, "XL", "Blue", "Solid", 75),
+(5, "XL", "Blue", "Solid", 75), 
 (6, "L", "Red", "Stripes", 30),
 (7, "S", "White", "Stripes", 35),
 (8, "M", "Black", "Solid", 25),
