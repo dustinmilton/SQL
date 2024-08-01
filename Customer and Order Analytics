@@ -8,7 +8,7 @@ WHERE length(orderID) = 6;
 --Finds how many of those orders were for an iPhone
 SELECT COUNT(*)
 FROM BIT_DB.JanSales
-WHERE length(orderID) = 6 AND Product = 'iPhone';
+WHERE length(orderID) = 6 AND Product = 'iPhone'; 
 
 --Finds all the account numbers of customers who placed an order in February
 SELECT customers.acctnum, FebSales.orderID
